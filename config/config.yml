@@ -1,0 +1,10 @@
+app:
+  name: "GoBlog"
+
+server:
+  host: "localhost"
+  port: "9090"
+
+auth:
+  email: "masoud@mail.com"
+  password: "password"
