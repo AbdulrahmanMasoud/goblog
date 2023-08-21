@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"fmt"
 	"github.com/AbdulrahmanMasoud/goblog/pkg/config"
+	"github.com/AbdulrahmanMasoud/goblog/pkg/routing"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"net/http"
@@ -32,8 +32,10 @@ func serve() {
 
 	configs := config.Get()
 
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
+	routing.Init()
+	router := routing.GetRouter()
+
+	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message":  "pong",
 			"app_name": viper.Get("App.Name"), // We can get the keys through config struct
@@ -41,5 +43,6 @@ func serve() {
 			"password": configs.Auth.Password,
 		})
 	})
-	r.Run(fmt.Sprintf("%s:%s", configs.Server.Host, configs.Server.Port))
+
+	routing.Serve()
 }
